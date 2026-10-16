@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071426">
+    <title>Library Management System | Books</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../issuse/module.css">
+    <link rel="stylesheet" href="books.css">
+</head>
+<body class="books-page">
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a class="brand" href="../dashboard/dashboard.html">
+                <span class="brand-icon" aria-hidden="true">L</span>
+                <span>Libra<span class="brand-accent">ry</span></span>
+            </a>
+            <p class="sidebar-label">WORKSPACE</p>
+            <nav class="side-nav" aria-label="Main navigation">
+                <a href="../dashboard/dashboard.html"><span aria-hidden="true">⌂</span>Dashboard</a>
+                <a class="active" id="allBooksNav" href="#all-books" aria-current="page"><span aria-hidden="true">▤</span>All Books</a>
+                <a href="#addBookPanel" id="sidebarAddBook"><span aria-hidden="true">＋</span>Add Book</a>
+                <a id="categoriesNav" href="#categories"><span aria-hidden="true">▦</span>Categories</a>
+                <a href="#reports" id="reportsNav"><span aria-hidden="true">▥</span>Reports</a>
+            </nav>
+            <p class="sidebar-label sidebar-label-bottom">PREFERENCES</p>
+            <nav class="side-nav">
+                <button type="button" id="settingsButton"><span aria-hidden="true">⚙</span>Settings</button>
+            </nav>
+            <div class="sidebar-footer">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Library workspace<br><small>Local catalogue</small></span>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-heading">
+                <div>
+                    <p class="eyebrow">LIBRARY OVERVIEW</p>
+                    <h1>Library Management System</h1>
+                    <p class="welcome-copy">Your collection, organized and always within reach.</p>
+                </div>
+                <button class="primary-button add-book-button" id="showAddBookButton" type="button">
+                    <span aria-hidden="true">＋</span> Add New Book
+                </button>
+            </header>
+
+            <section class="stats-grid" aria-label="Book collection summary">
+                <article class="stat-card">
+                    <span class="stat-icon stat-icon-books" aria-hidden="true">▤</span>
+                    <div><p>Total Books</p><strong id="totalBooks">0</strong><small>Titles in collection</small></div>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon stat-icon-available" aria-hidden="true">✓</span>
+                    <div><p>Available Books</p><strong id="availableBooks">0</strong><small>Copies ready to borrow</small></div>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon stat-icon-issued" aria-hidden="true">↗</span>
+                    <div><p>Issued Books</p><strong id="issuedBooks">0</strong><small>Currently on loan</small></div>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon stat-icon-categories" aria-hidden="true">▦</span>
+                    <div><p>Total Categories</p><strong id="totalCategories">0</strong><small>Areas of knowledge</small></div>
+                </article>
+            </section>
+
+            <section class="panel category-panel" id="categories" aria-labelledby="categoriesHeading">
+                <div class="section-title">
+                    <div>
+                        <p class="eyebrow">BROWSE BY SUBJECT</p>
+                        <h2 id="categoriesHeading">Categories</h2>
+                    </div>
+                    <button type="button" class="subtle-button" id="clearCategoryFilter">Clear filter</button>
+                </div>
+                <div class="category-list" id="categoryList" aria-label="Book categories"></div>
+            </section>
+
+            <section class="panel book-table-panel" id="all-books" aria-labelledby="allBooksHeading">
+                <div class="table-heading">
+                    <div>
+                        <p class="eyebrow">YOUR COLLECTION</p>
+                        <h2 id="allBooksHeading">All Books</h2>
+                        <p class="section-description">Manage, search, and organize every title in your library.</p>
+                    </div>
+                    <span class="book-count" id="bookCount">0 books</span>
+                </div>
+                <div class="book-toolbar">
+                    <label class="search-wrap">
+                        <span aria-hidden="true">⌕</span>
+                        <input class="search-input" id="bookSearch" type="search" placeholder="Search title, author, ID..." aria-label="Search books">
+                    </label>
+                    <label class="select-wrap">
+                        <span class="sr-only">Filter by category</span>
+                        <select class="filter-select" id="categoryFilter" aria-label="Filter by category">
+                            <option value="">All categories</option>
+                        </select>
+                    </label>
+                    <label class="select-wrap">
+                        <span class="sr-only">Sort books</span>
+                        <select class="filter-select" id="bookSort" aria-label="Sort books">
+                            <option value="title-asc">Title A–Z</option>
+                            <option value="title-desc">Title Z–A</option>
+                            <option value="quantity-desc">Quantity: high to low</option>
+                            <option value="quantity-asc">Quantity: low to high</option>
+                            <option value="id-asc">Book ID</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Book ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Publisher</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookTableBody"></tbody>
+                    </table>
+                </div>
+                <p class="table-footnote"><span class="low-stock-key" aria-hidden="true"></span> Low stock: at or below <span id="lowStockThresholdLabel">3</span> copies</p>
+            </section>
+
+            <section class="reports-section" id="reports" aria-labelledby="reportsHeading">
+                <header class="reports-heading">
+                    <div>
+                        <p class="eyebrow">INSIGHTS &amp; ANALYTICS</p>
+                        <h2 id="reportsHeading">Library Reports</h2>
+                        <p class="section-description" id="reportScopeDescription">A live view of your catalogue inventory and category distribution.</p>
+                    </div>
+                    <div class="report-actions">
+                        <button class="secondary-button" id="exportReportButton" type="button"><span aria-hidden="true">⇩</span> Export CSV</button>
+                        <button class="primary-button" id="printReportButton" type="button"><span aria-hidden="true">▣</span> Print / Save as PDF</button>
+                    </div>
+                </header>
+
+                <section class="panel report-controls" aria-label="Report filters">
+                    <label for="reportType">Report type
+                        <select id="reportType" class="filter-select">
+                            <option value="inventory">Inventory overview</option>
+                            <option value="added">Books added in date range</option>
+                        </select>
+                    </label>
+                    <div class="date-filter" id="reportDateFilter" hidden>
+                        <label for="reportDateFrom">From<input id="reportDateFrom" type="date"></label>
+                        <label for="reportDateTo">To<input id="reportDateTo" type="date"></label>
+                    </div>
+                    <p class="report-filter-message" id="reportFilterMessage" role="alert" aria-live="polite"></p>
+                </section>
+
+                <section class="report-stats" aria-label="Report summary">
+                    <article class="report-stat-card"><span class="report-stat-icon" aria-hidden="true">▤</span><div><p>Total Book Titles</p><strong id="reportTotalTitles">0</strong></div></article>
+                    <article class="report-stat-card"><span class="report-stat-icon" aria-hidden="true">▥</span><div><p>Total Copies</p><strong id="reportTotalCopies">0</strong></div></article>
+                    <article class="report-stat-card"><span class="report-stat-icon" aria-hidden="true">✓</span><div><p>Available Copies</p><strong id="reportAvailableCopies">0</strong></div></article>
+                    <article class="report-stat-card"><span class="report-stat-icon warning-icon" aria-hidden="true">!</span><div><p>Low-Stock Books</p><strong id="reportLowStock">0</strong></div></article>
+                    <article class="report-stat-card"><span class="report-stat-icon" aria-hidden="true">▦</span><div><p>Total Categories</p><strong id="reportTotalCategories">0</strong></div></article>
+                </section>
+
+                <div class="report-grid">
+                    <section class="panel report-panel" aria-labelledby="categoryChartHeading">
+                        <div class="report-panel-heading">
+                            <div><p class="eyebrow">COLLECTION BREAKDOWN</p><h3 id="categoryChartHeading">Category-wise Distribution</h3></div>
+                            <span class="chart-unit">Titles</span>
+                        </div>
+                        <div class="category-chart" id="categoryChart" role="img" aria-label="Book titles by category"></div>
+                    </section>
+                    <section class="panel report-panel inventory-summary" aria-labelledby="inventorySummaryHeading">
+                        <div class="report-panel-heading">
+                            <div><p class="eyebrow">STOCK OVERVIEW</p><h3 id="inventorySummaryHeading">Inventory Summary</h3></div>
+                            <span class="book-count" id="inventoryReportCount">0 categories</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="inventory-report-table">
+                                <thead><tr><th scope="col">Category</th><th scope="col">Titles</th><th scope="col">Total copies</th><th scope="col">Low stock</th></tr></thead>
+                                <tbody id="inventoryTableBody"></tbody>
+                        </table>
+                        </div>
+                    </section>
+                </div>
+                <p class="report-data-note" id="reportDataNote">Available copies are calculated from each book record’s current quantity. Circulation totals are not included.</p>
+            </section>
+        </main>
+    </div>
+
+    <section class="modal-backdrop" id="addBookPanel" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="bookFormHeading">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow">COLLECTION RECORD</p>
+                    <h2 id="bookFormHeading">Add New Book</h2>
+                    <p class="modal-description">Enter the details below to add a title to your catalogue.</p>
+                </div>
+                <button class="icon-button" id="cancelAddBookButton" type="button" aria-label="Close form">×</button>
+            </div>
+            <form id="bookForm" novalidate>
+                <div class="form-grid">
+                    <label>Book ID<input id="bookId" name="bookId" type="text" maxlength="50" required><small class="word-count" id="bookIdCharacterCount">0/50</small><small class="field-error" id="bookIdError"></small></label>
+                    <label>Title<input id="bookName" name="bookName" type="text" maxlength="50" required><small class="word-count" id="bookNameCharacterCount">0/50</small><small class="word-count" id="bookNameCount">0 / 20 words</small><small class="field-error" id="bookNameError"></small></label>
+                    <label>Author<input id="author" name="author" type="text" maxlength="50" required><small class="word-count" id="authorCharacterCount">0/50</small><small class="word-count" id="authorCount">0 / 20 words</small><small class="field-error" id="authorError"></small></label>
+                    <label>Category<input id="category" name="category" type="text" maxlength="50" required><small class="word-count" id="categoryCharacterCount">0/50</small><small class="field-error" id="categoryError"></small></label>
+                    <label>Publisher<input id="publisher" name="publisher" type="text" maxlength="50" required><small class="word-count" id="publisherCharacterCount">0/50</small><small class="field-error" id="publisherError"></small></label>
+                    <label>Year<input id="year" name="year" type="number" min="0" step="1" required><small class="field-error" id="yearError"></small></label>
+                    <label>Quantity<input id="quantity" name="quantity" type="number" min="1" step="1" required><small class="field-error" id="quantityError"></small></label>
+                </div>
+                <p class="form-message" id="formMessage" role="alert" aria-live="polite"></p>
+                <div class="form-actions">
+                    <button class="secondary-button" id="cancelFormButton" type="button">Cancel</button>
+                    <button class="primary-button" type="submit">Save Book</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <dialog class="confirm-dialog" id="deleteConfirmation">
+        <form method="dialog">
+            <span class="confirm-icon" aria-hidden="true">!</span>
+            <p class="eyebrow">DELETE RECORD</p>
+            <h2>Delete this book?</h2>
+            <p id="deleteConfirmationMessage">This action cannot be undone.</p>
+            <div class="form-actions">
+                <button class="secondary-button" value="cancel">Keep book</button>
+                <button class="danger-button" id="confirmDeleteButton" type="submit" value="delete">Delete book</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="confirm-dialog settings-dialog" id="settingsDialog">
+        <form id="settingsForm">
+            <button class="dialog-close" id="closeSettingsButton" type="button" aria-label="Close settings">×</button>
+            <p class="eyebrow">PREFERENCES</p>
+            <h2>Catalogue settings</h2>
+            <p>Choose when a book is marked as low stock.</p>
+            <label class="setting-label" for="lowStockThreshold">Low-stock warning threshold
+                <input id="lowStockThreshold" name="threshold" type="number" min="0" max="99" step="1" required>
+            </label>
+            <div class="form-actions">
+                <button class="secondary-button" id="closeSettingsButtonBottom" type="button">Cancel</button>
+                <button class="primary-button" type="submit">Save settings</button>
+            </div>
+        </form>
+    </dialog>
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="../student/auth.js"></script>
+    <script>requireAuth(); attachLogoutHandlers();</script>
+    <script src="books.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Digital Library</title>
+    <link rel="stylesheet" href="../login/login.css">
+</head>
+<body class="register-page">
+    <main class="container">
+        <div class="card">
+            <div class="logo">
+                <img src="../images/images.png" alt="Digital Library logo">
+                <h1>Digital Library</h1>
+                <p>Create your library account</p>
+            </div>
+            <form id="registerForm" novalidate>
+                <h2>Create Account</h2>
+                <input type="text" id="registerName" placeholder="Full Name" maxlength="50" required>
+                <small class="field-count" id="registerNameCharacterCount">0/50</small>
+                <small class="field-error" id="registerNameError"></small>
+                <input type="email" id="registerEmail" placeholder="Email Address" maxlength="50" required>
+                <small class="field-count" id="registerEmailCharacterCount">0/50</small>
+                <small class="field-error" id="registerEmailError"></small>
+                <input type="tel" id="registerPhone" placeholder="Phone Number" maxlength="10" inputmode="numeric" required>
+                <small class="field-error" id="registerPhoneError"></small>
+                <input type="password" id="registerPassword" placeholder="Password (minimum 6 characters)" required>
+                <small class="field-error" id="registerPasswordError"></small>
+                <select id="registerRole" required>
+                    <option value="">Select Role</option>
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <small class="field-error" id="registerRoleError"></small>
+                <p class="form-message" id="registerMessage" role="alert" aria-live="polite"></p>
+                <button type="submit" class="submitBtn">Register</button>
+                <p class="register-link">Already registered? <a href="../login/login.html">Login Here</a></p>
+            </form>
+        </div>
+    </main>
+    <script src="../student/auth.js"></script>
+    <script src="register.js"></script>
+</body>
+</html>

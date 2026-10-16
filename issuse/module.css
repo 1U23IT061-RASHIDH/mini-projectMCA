@@ -1,0 +1,592 @@
+.module-shell {
+    max-width: 1240px;
+}
+
+.module-heading {
+    align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.module-heading h1 {
+    margin-bottom: 10px;
+}
+
+.module-toolbar {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.book-toolbar {
+    align-items: center;
+    display: flex;
+    gap: 14px;
+}
+
+.search-input,
+.filter-select,
+.form-grid select,
+.form-grid input {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    min-height: 42px;
+    padding: 9px 11px;
+}
+
+.search-input {
+    max-width: 330px;
+    width: 100%;
+}
+
+.search-input:focus,
+.filter-select:focus,
+.form-grid select:focus,
+.form-grid input:focus {
+    border-color: var(--blue);
+    outline: 2px solid rgba(23, 105, 170, 0.15);
+}
+
+.primary-button,
+.secondary-button,
+.danger-button,
+.action-button,
+.text-button {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+.primary-button {
+    background: var(--blue);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 18px;
+}
+
+.primary-button:hover {
+    background: var(--navy);
+}
+
+.secondary-button,
+.action-button,
+.text-button {
+    background: transparent;
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.secondary-button {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+
+.danger-button {
+    background: #fff1ef;
+    border: 1px solid #f2c2bc;
+    border-radius: 5px;
+    color: #b42318;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 10px;
+}
+
+.action-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.form-panel {
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.form-grid label {
+    color: var(--text);
+    display: grid;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 7px;
+}
+
+.form-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.form-message {
+    min-height: 22px;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 18px 0 8px;
+}
+
+.form-message.error { color: #b42318; }
+.form-message.success { color: var(--green); }
+
+.field-error {
+    color: #ffb4b0;
+    display: block;
+    font-size: 11px;
+    line-height: 1.35;
+    margin-top: 5px;
+    min-height: 15px;
+}
+
+.field-error:empty { display: none; }
+
+.field-invalid {
+    border-color: #ffaaa5 !important;
+    box-shadow: 0 0 0 2px rgba(255, 170, 165, 0.18);
+}
+
+.word-count {
+    color: var(--module-muted);
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.record-count {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.status {
+    border-radius: 20px;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 9px;
+}
+
+.status-issued { background: #fff3e4; color: #a85b10; }
+.status-returned { background: var(--mint); color: #21704f; }
+.status-overdue { background: #fff1ef; color: #b42318; }
+
+.module-table th,
+.module-table td {
+    padding: 14px 10px;
+    white-space: nowrap;
+}
+
+.module-table td.wrap-cell {
+    white-space: normal;
+}
+
+.book-option {
+    align-items: center;
+    display: flex;
+    gap: 9px;
+}
+
+.book-option-icon {
+    align-items: center;
+    background: var(--mint);
+    border-radius: 5px;
+    color: var(--blue);
+    display: inline-flex;
+    font-weight: 700;
+    height: 28px;
+    justify-content: center;
+    width: 25px;
+}
+
+.dialog-card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 18px 50px rgba(24, 50, 71, 0.2);
+    color: var(--text);
+    max-width: 440px;
+    padding: 26px;
+    width: calc(100% - 32px);
+}
+
+.dialog-card::backdrop {
+    background: rgba(18, 59, 93, 0.35);
+}
+
+.detail-list {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    margin: 22px 0;
+}
+
+.detail-list div {
+    border-bottom: 1px solid #edf2ef;
+    padding-bottom: 9px;
+}
+
+.detail-list dt {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.detail-list dd {
+    font-size: 13px;
+    margin: 3px 0 0;
+}
+
+[hidden] { display: none !important; }
+
+@media (max-width: 760px) {
+    .module-heading,
+    .module-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form-grid { grid-template-columns: repeat(2, 1fr); }
+    .search-input { max-width: none; }
+}
+
+@media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .full-width { grid-column: auto; }
+    .detail-list { grid-template-columns: 1fr; }
+}
+
+/* Shared glass treatment for the library modules. Each page supplies its own backdrop. */
+.books-page,
+.students-page,
+.issues-page {
+    --module-ink: #f5f8ff;
+    --module-muted: #b5c2d4;
+    --module-line: rgba(201, 222, 247, 0.16);
+    --module-glass: rgba(8, 21, 40, 0.76);
+    background-color: #081426;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--module-ink);
+    isolation: isolate;
+    min-height: 100vh;
+    position: relative;
+}
+
+.books-page {
+    background-image:
+        linear-gradient(115deg, rgba(4, 14, 28, 0.88), rgba(10, 29, 48, 0.65)),
+    url("../images/pexels-betul-2161396195-37494171.jpg");
+}
+
+.students-page {
+    background-image:
+        linear-gradient(115deg, rgba(4, 14, 28, 0.9), rgba(13, 38, 58, 0.66)),
+    url("../images/pexels-mikhail-nilov-9158358.jpg");
+}
+
+.issues-page {
+    background-image:
+        linear-gradient(115deg, rgba(4, 14, 28, 0.91), rgba(35, 31, 28, 0.68)),
+    url("../images/pexels-introspectivedsgn-4582539.jpg");
+}
+
+.books-page::before,
+.students-page::before,
+.issues-page::before {
+    background: rgba(2, 10, 22, 0.18);
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+}
+
+.books-page .topbar,
+.students-page .topbar,
+.issues-page .topbar {
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    background: rgba(5, 17, 34, 0.8);
+    border-bottom: 1px solid rgba(204, 225, 248, 0.16);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 2;
+}
+
+.books-page .brand,
+.students-page .brand,
+.issues-page .brand {
+    color: #ffffff;
+}
+
+.books-page .book-mark,
+.students-page .book-mark,
+.issues-page .book-mark {
+    background: linear-gradient(145deg, #2f9ee8, #1769aa);
+    box-shadow: 0 7px 18px rgba(24, 128, 204, 0.28);
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+.books-page .nav-links a,
+.students-page .nav-links a,
+.issues-page .nav-links a {
+    color: #afbdd0;
+}
+
+.books-page .nav-links a:hover,
+.books-page .nav-links a.active,
+.students-page .nav-links a:hover,
+.students-page .nav-links a.active,
+.issues-page .nav-links a:hover,
+.issues-page .nav-links a.active {
+    color: #ffffff;
+}
+
+.books-page .nav-links a.active,
+.students-page .nav-links a.active,
+.issues-page .nav-links a.active {
+    border-bottom-color: #55b6f2;
+}
+
+.books-page .nav-links .logout,
+.students-page .nav-links .logout,
+.issues-page .nav-links .logout {
+    border-color: rgba(255, 181, 84, 0.5);
+    color: #ffc16d;
+}
+
+.books-page .page-shell,
+.students-page .page-shell,
+.issues-page .page-shell {
+    position: relative;
+    z-index: 1;
+}
+
+.books-page .eyebrow,
+.students-page .eyebrow,
+.issues-page .eyebrow {
+    color: #70c8f7;
+    letter-spacing: 2px;
+}
+
+.books-page h1,
+.students-page h1,
+.issues-page h1 {
+    color: #ffffff;
+    font-size: clamp(32px, 5vw, 48px);
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.books-page .welcome-copy,
+.students-page .welcome-copy,
+.issues-page .welcome-copy {
+    color: #c4d1e2;
+}
+
+.books-page .panel,
+.students-page .panel,
+.issues-page .panel {
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    background: var(--module-glass);
+    border: 1px solid var(--module-line);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.books-page .panel:hover,
+.students-page .panel:hover,
+.issues-page .panel:hover {
+    border-color: rgba(110, 193, 239, 0.34);
+    box-shadow: 0 22px 46px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.books-page .panel-heading,
+.students-page .panel-heading,
+.issues-page .panel-heading {
+    border-bottom: 1px solid rgba(196, 217, 243, 0.11);
+    padding-bottom: 18px;
+}
+
+.books-page .panel-heading h2,
+.students-page .panel-heading h2,
+.issues-page .panel-heading h2,
+.books-page .book-cell-details strong,
+.students-page td,
+.issues-page td {
+    color: var(--module-ink);
+}
+
+.books-page .book-count,
+.students-page .record-count,
+.issues-page .record-count,
+.books-page th,
+.students-page th,
+.issues-page th {
+    color: var(--module-muted);
+}
+
+.books-page .book-toolbar .search-input {
+    max-width: 220px;
+}
+
+.books-page td:last-child {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.books-page th,
+.books-page td,
+.students-page th,
+.students-page td,
+.issues-page th,
+.issues-page td {
+    border-bottom-color: rgba(196, 217, 243, 0.11);
+}
+
+.books-page .form-grid label,
+.students-page .form-grid label,
+.issues-page .form-grid label {
+    color: #d9e4f2;
+}
+
+.books-page .form-grid input,
+.students-page .form-grid input,
+.issues-page .form-grid input,
+.issues-page .form-grid select,
+.books-page .search-input,
+.students-page .search-input,
+.issues-page .search-input,
+.issues-page .filter-select {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(201, 222, 247, 0.2);
+    color: #f5f8ff;
+}
+
+.books-page .form-grid input::placeholder,
+.students-page .form-grid input::placeholder,
+.issues-page .form-grid input::placeholder,
+.books-page .search-input::placeholder,
+.students-page .search-input::placeholder,
+.issues-page .search-input::placeholder {
+    color: #91a2b8;
+}
+
+.books-page .form-grid select,
+.issues-page .form-grid select,
+.issues-page .filter-select {
+    color-scheme: light;
+}
+
+.issues-page .form-grid select,
+.issues-page .filter-select {
+    appearance: auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(201, 222, 247, 0.34);
+    color: #f5f8ff;
+    cursor: pointer;
+}
+
+.issues-page .form-grid select option,
+.issues-page .filter-select option {
+    background: #ffffff;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.issues-page .form-grid select option:checked,
+.issues-page .filter-select option:checked {
+    background: #dbeeff;
+    color: #123b5d;
+    font-weight: 700;
+}
+
+.issues-page .form-grid select option:hover,
+.issues-page .filter-select option:hover {
+    background: #e8f4ff;
+    color: #123b5d;
+}
+
+.issues-page .form-grid select:focus,
+.issues-page .filter-select:focus {
+    border-color: #70c8f7;
+    box-shadow: 0 0 0 3px rgba(112, 200, 247, 0.16);
+    outline: none;
+}
+
+.books-page .primary-button,
+.students-page .primary-button,
+.issues-page .primary-button {
+    background: linear-gradient(135deg, #2d9de2, #1769aa);
+    box-shadow: 0 9px 20px rgba(23, 105, 170, 0.25);
+}
+
+.books-page .primary-button:hover,
+.students-page .primary-button:hover,
+.issues-page .primary-button:hover {
+    background: linear-gradient(135deg, #48b6f0, #1d7ac0);
+}
+
+.books-page .text-button,
+.students-page .text-button,
+.issues-page .text-button,
+.students-page .action-button,
+.issues-page .action-button {
+    color: #7dcef6;
+}
+
+.books-page .secondary-button,
+.issues-page .secondary-button {
+    border-color: rgba(201, 222, 247, 0.24);
+    color: #dceaf8;
+}
+
+.books-page .book-icon,
+.students-page .book-option-icon {
+    background: rgba(47, 158, 232, 0.16);
+    border: 1px solid rgba(110, 193, 239, 0.18);
+    color: #83d3ff;
+}
+
+.books-page .empty-state,
+.students-page .empty-state,
+.issues-page .empty-state {
+    color: var(--module-muted);
+}
+
+@media (max-width: 900px) {
+    .books-page,
+    .students-page,
+    .issues-page {
+        background-attachment: scroll;
+    }
+
+    .book-toolbar {
+        align-items: flex-end;
+        flex-direction: column-reverse;
+    }
+
+    .books-page .book-toolbar .search-input {
+        max-width: none;
+    }
+}

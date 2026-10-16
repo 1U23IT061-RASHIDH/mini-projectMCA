@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Library Management System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("../images/Microsoft-office-by-futurespace-Sydney-Australia.jpg") center/cover fixed !important;
+            font-family: "Poppins", Arial, sans-serif !important;
+        }
+
+        header h1,
+        header p,
+        main section h2,
+        main section a,
+        footer {
+            font-family: "Poppins", Arial, sans-serif !important;
+        }
+
+        .site-logo {
+            border-radius: 12px;
+            height: 54px;
+            margin-bottom: 12px;
+            object-fit: cover;
+            width: 54px;
+        }
+
+        header {
+            background: #082f31 !important;
+            padding: 30px 20px !important;
+            box-shadow: 0 2px 8px rgba(11, 61, 58, 0.22) !important;
+        }
+
+        header h1 {
+            font-size: clamp(26px, 4vw, 36px) !important;
+        }
+
+        main {
+            min-height: 70vh !important;
+            padding: 42px 20px !important;
+        }
+
+        main section {
+            max-width: 1000px !important;
+            background: #0f5b57 !important;
+            border: 1px solid #79c9b6;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 24px rgba(11, 61, 58, 0.24) !important;
+        }
+
+        main section > div:first-child {
+            background: #174e4a !important;
+            overflow: hidden;
+        }
+
+        main section > div:first-child img {
+            animation: libraryImageMotion 14s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+
+        main section > div:last-child {
+            padding: 42px !important;
+            background: #0f5b57 !important;
+        }
+
+        main section h2 {
+            color: #d9f0eb !important;
+            font-size: clamp(26px, 3vw, 32px) !important;
+            margin: 10px 0 16px !important;
+        }
+
+        main section p {
+            color: #e6f6f1 !important;
+            line-height: 1.6 !important;
+        }
+
+        main section > div:last-child > span {
+            color: #9de2c8 !important;
+        }
+
+        main section > div:last-child > div {
+            gap: 10px !important;
+            margin: 14px 0 24px !important;
+        }
+
+        main section > div:last-child > div > div {
+            background: rgba(157, 226, 200, 0.16) !important;
+            border: 1px solid rgba(157, 226, 200, 0.5);
+            color: #d9f0eb !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+        }
+
+        main section a {
+            background: #f2b84b !important;
+            color: #173b39 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            padding: 13px 24px !important;
+        }
+
+        footer {
+            background: #082f31 !important;
+            padding: 20px !important;
+        }
+
+        @keyframes libraryImageMotion {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.07);
+            }
+        }
+
+        @media (max-width: 650px) {
+            main section > div:first-child img {
+                min-height: 260px !important;
+                max-height: 300px;
+            }
+
+            main section > div:last-child {
+                padding: 28px 24px !important;
+            }
+        }
+    </style>
+    <style>
+        .welcome-page {
+            --welcome-white: #f7fbff;
+            --welcome-muted: #c1cfdf;
+            --welcome-line: rgba(213, 229, 247, 0.18);
+            align-items: stretch;
+            background-color: #071525 !important;
+            background-image:
+                linear-gradient(120deg, rgba(3, 13, 27, 0.9), rgba(7, 31, 55, 0.66)),
+                url("../images/Microsoft-office-by-futurespace-Sydney-Australia.jpg") !important;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--welcome-white);
+            display: block;
+            min-height: 100vh;
+        }
+
+        .welcome-header {
+            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(18px);
+            background: rgba(4, 16, 33, 0.72) !important;
+            border-bottom: 1px solid var(--welcome-line);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2) !important;
+            padding: 30px 20px !important;
+        }
+
+        .welcome-header h1 {
+            color: var(--welcome-white);
+            font-size: clamp(28px, 4vw, 42px) !important;
+            letter-spacing: 0.2px !important;
+        }
+
+        .welcome-header p {
+            color: var(--welcome-muted);
+            font-size: 16px;
+        }
+
+        .welcome-main {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            min-height: calc(100vh - 235px) !important;
+            padding: 68px 20px !important;
+        }
+
+        .welcome-card {
+            -webkit-backdrop-filter: blur(22px);
+            backdrop-filter: blur(22px);
+            background: rgba(8, 24, 44, 0.66) !important;
+            border: 1px solid rgba(213, 229, 247, 0.22) !important;
+            border-radius: 24px !important;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+            display: flex;
+            max-width: 1060px !important;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .hero-media {
+            background: #102b47 !important;
+            flex: 0.95 !important;
+            min-height: 500px !important;
+            min-width: 340px !important;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-media::after {
+            background: linear-gradient(180deg, transparent 45%, rgba(4, 15, 30, 0.5));
+            content: "";
+            inset: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .hero-media img {
+            filter: saturate(0.9) contrast(1.04);
+            min-height: 500px !important;
+            transition: transform 0.7s ease;
+        }
+
+        .welcome-card:hover .hero-media img {
+            transform: scale(1.035);
+        }
+
+        .welcome-content {
+            background: rgba(7, 24, 44, 0.52) !important;
+            flex: 1.05 !important;
+            justify-content: center;
+            padding: 58px !important;
+        }
+
+        .welcome-label {
+            color: #75cdf8 !important;
+            font-size: 12px !important;
+            letter-spacing: 2.4px;
+        }
+
+        .welcome-content h2 {
+            color: var(--welcome-white) !important;
+            font-size: clamp(30px, 4vw, 46px) !important;
+            line-height: 1.12;
+            margin: 14px 0 20px !important;
+        }
+
+        .welcome-content p {
+            color: var(--welcome-muted) !important;
+            font-size: 16px;
+            line-height: 1.75 !important;
+        }
+
+        .welcome-features {
+            gap: 10px !important;
+            margin: 20px 0 28px !important;
+        }
+
+        .feature-chip {
+            background: rgba(47, 158, 232, 0.14) !important;
+            border: 1px solid rgba(117, 205, 248, 0.22);
+            border-radius: 999px !important;
+            color: #d9efff !important;
+            font-size: 13px !important;
+            padding: 9px 14px !important;
+        }
+
+        .feature-chip:nth-child(2) {
+            background: rgba(240, 164, 70, 0.14) !important;
+            border-color: rgba(255, 193, 109, 0.24);
+            color: #ffe0ad !important;
+        }
+
+        .welcome-cta {
+            background: linear-gradient(135deg, #37a9e8, #1769aa) !important;
+            border: 1px solid rgba(154, 222, 255, 0.25);
+            border-radius: 10px !important;
+            box-shadow: 0 12px 25px rgba(23, 105, 170, 0.3) !important;
+            color: #ffffff !important;
+            font-size: 15px !important;
+            padding: 14px 24px !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .welcome-cta:hover {
+            box-shadow: 0 16px 30px rgba(23, 105, 170, 0.4) !important;
+            transform: translateY(-2px);
+        }
+
+        .welcome-footer {
+            background: rgba(3, 13, 27, 0.78) !important;
+            border-top: 1px solid var(--welcome-line);
+            color: var(--welcome-muted) !important;
+            padding: 22px !important;
+        }
+
+        @media (max-width: 760px) {
+            .welcome-page {
+                background-attachment: scroll;
+            }
+
+            .welcome-main {
+                min-height: auto !important;
+                padding: 36px 16px 48px !important;
+            }
+
+            .welcome-card {
+                display: block;
+            }
+
+            .hero-media {
+                min-height: 270px !important;
+            }
+
+            .hero-media img {
+                min-height: 270px !important;
+            }
+
+            .welcome-content {
+                padding: 34px 26px !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="welcome-page" style="
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:
+        linear-gradient(135deg, rgba(5, 15, 30, 0.8), rgba(20, 71, 92, 0.6)),
+        url('../images/Microsoft-office-by-futurespace-Sydney-Australia.jpg') center/cover fixed no-repeat;
+    color:#1e293b;
+">
+
+    <!-- Header -->
+    <header class="welcome-header" style="
+        background:linear-gradient(135deg, #1e3a8a, #2563eb);
+        color:white;
+        text-align:center;
+        padding:35px 20px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.15);
+    ">
+
+        <h1 style="
+            margin:0;
+            font-size:36px;
+            letter-spacing:1px;
+        ">
+            <img class="site-logo" src="../images/images.png" alt="Digital Library logo"><br>
+            📚 Digital Library Management System
+        </h1>
+
+        <p style="
+            margin:12px 0 0;
+            font-size:18px;
+            opacity:0.9;
+        ">
+            Smart • Simple • Secure Library Management
+        </p>
+
+    </header>
+
+
+    <main class="welcome-main" style="
+        min-height:70vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:50px 20px;
+    ">
+
+ 
+        <section class="welcome-card" style="
+            max-width:960px;
+            width:100%;
+            background:linear-gradient(135deg, rgba(10, 25, 39, 0.8), rgba(15, 42, 67, 0.76));
+            border:1px solid rgba(255,255,255,0.12);
+            border-radius:24px;
+            overflow:hidden;
+            display:flex;
+            flex-wrap:wrap;
+            box-shadow:0 25px 60px rgba(0,0,0,0.28);
+        ">
+
+            <div class="hero-media" style="
+                flex:1;
+                min-width:300px;
+                background:#e0e7ff;
+            ">
+
+                <img
+                    src="../images/pexels-cottonbro-4855370.jpg"
+                    alt="Digital Library"
+                    style="
+                        width:100%;
+                        height:100%;
+                        min-height:400px;
+                        object-fit:cover;
+                        display:block;
+                    "
+                >
+            </div>
+
+
+            <!-- Content -->
+            <div class="welcome-content" style="
+                flex:1;
+                min-width:300px;
+                padding:45px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                background:rgba(9, 20, 34, 0.45);
+                backdrop-filter:blur(6px);
+            ">
+
+                <span class="welcome-label" style="
+                    color:#8ed6ff;
+                    font-size:14px;
+                    font-weight:bold;
+                    text-transform:uppercase;
+                    letter-spacing:2px;
+                ">
+                    Welcome
+                </span>
+
+                <h2 style="
+                    font-size:32px;
+                    margin:12px 0 20px;
+                    color:#f8fbff;
+                    text-shadow:0 6px 20px rgba(0,0,0,0.18);
+                ">
+                    Welcome to Digital Library
+                </h2>
+
+                <p style="
+                    font-size:17px;
+                    line-height:1.7;
+                    color:#e2e8f0;
+                ">
+                    Manage books, students, issues, returns and library
+                    records easily using our modern Digital Library
+                    Management System.
+                </p>
+
+                <p style="
+                    font-size:16px;
+                    line-height:1.7;
+                    color:#cbd5e1;
+                ">
+                    Explore your digital library and manage everything
+                    in one convenient place.
+                </p>
+
+
+                <!-- Features -->
+                <div class="welcome-features" style="
+                    display:flex;
+                    gap:15px;
+                    flex-wrap:wrap;
+                    margin:15px 0 25px;
+                ">
+
+                    <div class="feature-chip" style="
+                        background:#eff6ff;
+                        color:#1d4ed8;
+                        padding:10px 15px;
+                        border-radius:10px;
+                        font-size:14px;
+                        font-weight:bold;
+                    ">
+                        Education
+                    </div>
+
+                    <div class="feature-chip" style="
+                        background:#eff6ff;
+                        color:#1d4ed8;
+                        padding:10px 15px;
+                        border-radius:10px;
+                        font-size:14px;
+                        font-weight:bold;
+                    ">
+                        Knowledge
+                    </div>
+
+                    <div class="feature-chip" style="
+                        background:#eff6ff;
+                        color:#1d4ed8;
+                        padding:10px 15px;
+                        border-radius:10px;
+                        font-size:14px;
+                        font-weight:bold;
+                    ">
+                       Skills & talent
+                    </div>
+
+                </div>
+
+
+                <!-- Button -->
+                <a class="welcome-cta" href="../login/login.html" style="
+                    display:inline-block;
+                    width:fit-content;
+                    text-decoration:none;
+                    background:linear-gradient(135deg, #2563eb, #1d4ed8);
+                    color:white;
+                    padding:15px 30px;
+                    border-radius:10px;
+                    font-size:16px;
+                    font-weight:bold;
+                    box-shadow:0 8px 20px rgba(37,99,235,0.3);
+                ">
+                    Get Started →
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="welcome-footer" style="
+        background:#0f172a;
+        color:#cbd5e1;
+        text-align:center;
+        padding:22px;
+    ">
+
+        <p style="
+            margin:0;
+            font-size:14px;
+        ">
+            © 2026 Digital Library Management System
+        </p>
+
+        <p style="
+            margin:8px 0 0;
+            font-size:13px;
+            color:#94a3b8;
+        ">
+            Smart Library • Better Management • Easy Access
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
