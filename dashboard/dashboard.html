@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Digital Library</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="../issuse/module.css">
+</head>
+<body class="dashboard-page">
+    <header class="topbar">
+        <a class="brand" href="dashboard.html"><span class="book-mark" aria-hidden="true">DL</span>Digital Library</a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a class="active" href="dashboard.html">Dashboard</a>
+            <a href="../book/books.html">Books</a>
+            <a href="../student/students.html">Students</a>
+            <a href="../issuse/issues.html">Issue &amp; Return</a>
+            <a class="logout" href="../login/login.html">Logout</a>
+        </nav>
+    </header>
+
+    <main class="page-shell dashboard-shell">
+        <section class="welcome-section">
+            <p class="eyebrow">LIBRARY OVERVIEW</p>
+            <h1>Welcome to Digital Library</h1>
+            <p class="welcome-copy">Manage your library efficiently and effortlessly.</p>
+        </section>
+
+        <section class="stats-grid" aria-label="Library statistics">
+            <article class="stat-card">
+                <span class="stat-icon stat-icon-books" aria-hidden="true">▱</span>
+                <div>
+                    <p>Total Books</p>
+                    <strong id="totalBooks">0</strong>
+                </div>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon stat-icon-students" aria-hidden="true">♙</span>
+                <div>
+                    <p>Total Students</p>
+                    <strong id="totalStudents">0</strong>
+                </div>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon stat-icon-issued" aria-hidden="true">▥</span>
+                <div>
+                    <p>Books Issued</p>
+                    <strong id="issuedBooks">0</strong>
+                </div>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon stat-icon-returned" aria-hidden="true">↻</span>
+                <div>
+                    <p>Books Returned</p>
+                    <strong id="returnedBooks">0</strong>
+                </div>
+            </article>
+        </section>
+
+        <section class="dashboard-grid">
+            <article class="panel" id="issues">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">ACTIVITY</p>
+                        <h2>Recent Library Activity</h2>
+                    </div>
+                    <a href="../issuse/issues.html">View all</a>
+                </div>
+                <ul class="activity-list" id="activityList"></ul>
+            </article>
+
+            <article class="panel" id="books">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">COLLECTION</p>
+                        <h2>Recently Added Books</h2>
+                    </div>
+                    <a href="../book/books.html">View All Books</a>
+                </div>
+                <ul class="book-list" id="recentBooks"></ul>
+            </article>
+
+            <article class="panel recent-returns-panel">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">CIRCULATION</p>
+                        <h2>Recently Returned Books</h2>
+                    </div>
+                    <a href="../issuse/issues.html">View All Returns</a>
+                </div>
+                <div class="return-list" id="recentReturns"></div>
+            </article>
+        </section>
+    </main>
+    <script src="../student/auth.js"></script>
+    <script>requireAuth(); attachLogoutHandlers();</script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
