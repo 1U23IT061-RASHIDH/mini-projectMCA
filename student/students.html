@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students | Digital Library</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../issuse/module.css">
+</head>
+<body class="students-page">
+    <header class="topbar">
+        <a class="brand" href="../dashboard/dashboard.html"><span class="book-mark" aria-hidden="true">DL</span>Digital Library</a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+            <a href="../book/books.html">Books</a>
+            <a class="active" href="students.html">Students</a>
+            <a href="../issuse/issues.html">Issue &amp; Return</a>
+            <a class="logout" href="../login/login.html">Logout</a>
+        </nav>
+    </header>
+    <main class="page-shell module-shell">
+        <section class="module-heading">
+            <div>
+                <p class="eyebrow">STUDENT DIRECTORY</p>
+                <h1>Students</h1>
+                <p class="welcome-copy">Manage the learners who use your digital library.</p>
+            </div>
+            <button class="primary-button" id="showStudentFormButton" type="button">+ Add Student</button>
+        </section>
+        <section class="panel form-panel" id="studentFormPanel" hidden>
+            <div class="panel-heading">
+                <div><p class="eyebrow">NEW RECORD</p><h2 id="studentFormTitle">Add Student</h2></div>
+                <button class="text-button" id="cancelStudentButton" type="button">Back to list</button>
+            </div>
+            <form id="studentForm" novalidate>
+                <div class="form-grid">
+                    <label>Student ID<input id="studentId" name="studentId" type="tel" maxlength="15" required><small class="field-error" id="studentIdError"></small></label>
+                    <label>Student Name<input id="studentName" name="studentName" type="text" maxlength="50" required><small class="word-count" id="studentNameCharacterCount">0/50</small><small class="field-error" id="studentNameError"></small></label>
+                    <label>Department<input id="department" name="department" type="text" maxlength="50" required><small class="word-count" id="departmentCharacterCount">0/50</small><small class="field-error" id="departmentError"></small></label>
+                    <label>Email<input id="email" name="email" type="email" maxlength="50" required><small class="word-count" id="emailCharacterCount">0/50</small><small class="field-error" id="emailError"></small></label>
+                    <label>Phone<input id="phone" name="phone" type="tel" maxlength="10" inputmode="numeric" required><small class="field-error" id="phoneError"></small></label>
+                </div>
+                <p class="form-message" id="studentMessage" role="alert" aria-live="polite"></p>
+                <div class="form-actions"><button class="primary-button" type="submit">Save Student</button><button class="secondary-button" id="resetStudentButton" type="button">Clear</button></div>
+            </form>
+        </section>
+        <section class="panel">
+            <div class="module-toolbar">
+                <div><p class="eyebrow">STUDENT RECORDS</p><h2>All Students</h2></div>
+                <input class="search-input" id="studentSearch" type="search" placeholder="Search students..." aria-label="Search students">
+            </div>
+            <p class="record-count" id="studentCount">0 students</p>
+            <div class="table-wrap">
+                <table class="module-table">
+                    <thead><tr><th>Student ID</th><th>Student Name</th><th>Department</th><th>Email</th><th>Phone</th><th>Actions</th></tr></thead>
+                    <tbody id="studentTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <dialog class="dialog-card" id="studentDialog">
+        <div class="panel-heading"><div><p class="eyebrow">STUDENT PROFILE</p><h2 id="dialogStudentName">Student details</h2></div><button class="text-button" id="closeStudentDialog" type="button">Close</button></div>
+        <dl class="detail-list" id="studentDetails"></dl>
+    </dialog>
+    <script src="auth.js"></script>
+    <script>requireAuth(); attachLogoutHandlers();</script>
+    <script src="students.js"></script>
+</body>
+</html>

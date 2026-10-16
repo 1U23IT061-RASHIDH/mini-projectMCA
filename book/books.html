@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books | Digital Library</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="books.css">
+    <link rel="stylesheet" href="../issuse/module.css">
+</head>
+<body class="books-page">
+    <header class="topbar">
+        <a class="brand" href="../dashboard/dashboard.html"><img src="../images/images.png" alt="Digital Library logo">Digital Library</a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+            <a class="active" href="books.html">Books</a>
+            <a href="../student/students.html">Students</a>
+            <a href="../issuse/issues.html">Issue &amp; Return</a>
+            <a class="logout" href="../login/login.html">Logout</a>
+        </nav>
+    </header>
+
+    <main class="page-shell books-shell">
+        <section class="books-heading">
+            <div>
+                <p class="eyebrow">COLLECTION</p>
+                <h1>Books</h1>
+                <p class="welcome-copy">Keep your library catalogue organized in this browser.</p>
+            </div>
+            <button class="primary-button" id="showAddBookButton" type="button">+ Add Book</button>
+        </section>
+
+        <section class="panel add-book-panel" id="addBookPanel" hidden>
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">NEW RECORD</p>
+                    <h2>Add Book</h2>
+                </div>
+                <button class="text-button" id="cancelAddBookButton" type="button">Back to list</button>
+            </div>
+            <form id="bookForm" novalidate>
+                <div class="form-grid">
+                    <label>Book ID<input id="bookId" name="bookId" type="text" maxlength="50" required><small class="word-count" id="bookIdCharacterCount">0/50</small><small class="field-error" id="bookIdError"></small></label>
+                    <label>Book Name<input id="bookName" name="bookName" type="text" maxlength="50" required><small class="word-count" id="bookNameCharacterCount">0/50</small><small class="word-count" id="bookNameCount">0 / 20 words</small><small class="field-error" id="bookNameError"></small></label>
+                    <label>Author<input id="author" name="author" type="text" maxlength="50" required><small class="word-count" id="authorCharacterCount">0/50</small><small class="word-count" id="authorCount">0 / 20 words</small><small class="field-error" id="authorError"></small></label>
+                    <label>Category<input id="category" name="category" type="text" maxlength="50" required><small class="word-count" id="categoryCharacterCount">0/50</small><small class="field-error" id="categoryError"></small></label>
+                    <label>Publisher<input id="publisher" name="publisher" type="text" maxlength="50" required><small class="word-count" id="publisherCharacterCount">0/50</small><small class="field-error" id="publisherError"></small></label>
+                    <label>Year<input id="year" name="year" type="number" min="0" step="1" required><small class="field-error" id="yearError"></small></label>
+                    <label>Quantity<input id="quantity" name="quantity" type="number" min="1" step="1" required><small class="field-error" id="quantityError"></small></label>
+                </div>
+                <p class="form-message" id="formMessage" role="alert" aria-live="polite"></p>
+                <button class="primary-button" type="submit">Save Book</button>
+            </form>
+        </section>
+
+        <section class="panel book-table-panel" id="bookListPanel">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">LIBRARY RECORDS</p>
+                    <h2>All Books</h2>
+                </div>
+                <div class="book-toolbar">
+                    <input class="search-input" id="bookSearch" type="search" placeholder="Search books..." aria-label="Search books">
+                    <span class="book-count" id="bookCount">0 books</span>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="../student/auth.js"></script>
+    <script>requireAuth(); attachLogoutHandlers();</script>
+    <script src="books.js"></script>
+</body>
+</html>

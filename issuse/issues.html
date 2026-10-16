@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue &amp; Return | Digital Library</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="module.css">
+</head>
+<body class="issues-page">
+    <header class="topbar">
+        <a class="brand" href="../dashboard/dashboard.html"><span class="book-mark" aria-hidden="true">DL</span>Digital Library</a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+            <a href="../book/books.html">Books</a>
+            <a href="../student/students.html">Students</a>
+            <a class="active" href="issues.html">Issue &amp; Return</a>
+            <a class="logout" href="../login/login.html">Logout</a>
+        </nav>
+    </header>
+    <main class="page-shell module-shell">
+        <section class="module-heading">
+            <div>
+                <p class="eyebrow">CIRCULATION DESK</p>
+                <h1>Issue &amp; Return</h1>
+                <p class="welcome-copy">Track every book moving in and out of your library.</p>
+            </div>
+            <div class="action-group"><button class="secondary-button" id="showReturnFormButton" type="button">Return Book</button><button class="primary-button" id="showIssueFormButton" type="button">Issue Book</button></div>
+        </section>
+        <section class="panel form-panel" id="issueFormPanel" hidden>
+            <div class="panel-heading"><div><p class="eyebrow">NEW TRANSACTION</p><h2>Issue Book</h2></div><button class="text-button" data-close-panel="issueFormPanel" type="button">Back to list</button></div>
+            <form id="issueForm" novalidate>
+                <div class="form-grid">
+                    <label>Book<select id="issueBookId" name="bookId" required></select><small class="field-error" id="issueBookIdError"></small></label>
+                    <label>Student<select id="issueStudentId" name="studentId" required></select><small class="field-error" id="issueStudentIdError"></small></label>
+                    <label>Issue Date<input id="issueDate" name="issueDate" type="date" required><small class="field-error" id="issueDateError"></small></label>
+                    <label>Due Date<input id="dueDate" name="dueDate" type="date" required><small class="field-error" id="dueDateError"></small></label>
+                </div>
+                <p class="form-message" id="issueMessage" role="alert" aria-live="polite"></p>
+                <button class="primary-button" type="submit">Confirm Issue</button>
+            </form>
+        </section>
+        <section class="panel form-panel" id="returnFormPanel" hidden>
+            <div class="panel-heading"><div><p class="eyebrow">CIRCULATION UPDATE</p><h2>Return Book</h2></div><button class="text-button" data-close-panel="returnFormPanel" type="button">Back to list</button></div>
+            <form id="returnForm" novalidate>
+                <div class="form-grid"><label class="full-width">Issued Book<select id="returnTransactionId" name="transactionId" required></select><small class="field-error" id="returnTransactionIdError"></small></label><label>Return Date<input id="returnDate" name="returnDate" type="date" required><small class="field-error" id="returnDateError"></small></label></div>
+                <p class="form-message" id="returnMessage" role="alert" aria-live="polite"></p>
+                <button class="primary-button" type="submit">Confirm Return</button>
+            </form>
+        </section>
+        <section class="panel">
+            <div class="module-toolbar">
+                <div><p class="eyebrow">TRANSACTION RECORDS</p><h2>Issue History</h2></div>
+                <div class="action-group"><input class="search-input" id="issueSearch" type="search" maxlength="50" placeholder="Search transactions..." aria-label="Search transactions"><select class="filter-select" id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="issued">Issued</option><option value="returned">Returned</option><option value="overdue">Overdue</option></select></div>
+            </div>
+            <p class="record-count" id="transactionCount">0 transactions</p>
+            <div class="table-wrap"><table class="module-table"><thead><tr><th>Transaction ID</th><th>Book Name</th><th>Student Name</th><th>Issue Date</th><th>Due Date</th><th>Return Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="transactionTableBody"></tbody></table></div>
+        </section>
+    </main>
+    <script src="../student/auth.js"></script>
+    <script>requireAdmin(); attachLogoutHandlers();</script>
+    <script src="issues.js"></script>
+</body>
+</html>

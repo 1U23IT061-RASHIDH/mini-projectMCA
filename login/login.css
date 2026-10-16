@@ -1,0 +1,281 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+body {
+    position: relative;
+    background:
+        linear-gradient(rgba(7, 26, 47, 0.58), rgba(7, 26, 47, 0.72)),
+        url("../images/pexels-cottonbro-4855370.jpg") center/cover fixed;
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    width: 420px;
+
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    border-radius: 18px;
+
+    padding: 35px;
+
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+/* LOGO */
+
+.logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo img {
+    border-radius: 14px;
+    height: 58px;
+    object-fit: cover;
+    width: 58px;
+}
+
+.logo h1 {
+    font-size: 32px;
+    font-weight: bold;
+
+    background: linear-gradient(
+        45deg,
+        #ffffff,
+        #ffd6f7,
+        #ffffff
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo p {
+    color: #ffffff;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* FORM */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+}
+
+/* INPUTS */
+
+input,
+select {
+    width: 100%;
+    padding: 14px;
+
+    margin-bottom: 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* INPUT FOCUS */
+
+input:focus,
+select:focus {
+    background: rgba(255, 255, 255, 0.28);
+
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.65),
+        0 5px 15px rgba(0, 0, 0, 0.18);
+}
+
+/* SELECT */
+
+select {
+    cursor: pointer;
+}
+
+select option {
+    background: #173b5d;
+    color: #ffffff;
+}
+
+/* SUBMIT BUTTON */
+
+.submitBtn {
+    padding: 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #2b8a9a, #1d5fb8);
+
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.4s;
+}
+
+/* BUTTON HOVER */
+
+.submitBtn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(161, 184, 187, 0.5);
+}
+
+/* BUTTON CLICK */
+
+.submitBtn:active {
+    transform: translateY(0);
+}
+
+/* LINK */
+
+.card p {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+.card p a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card p a:hover {
+    text-decoration: underline;
+}
+
+.form-message {
+    min-height: 22px;
+    margin: -4px 0 12px !important;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.form-message.error {
+    color: #ffd1d1 !important;
+}
+
+.form-message.success {
+    color: #b9f4d0 !important;
+}
+
+.field-error {
+    color: #ffd1d1;
+    display: block;
+    font-size: 12px;
+    line-height: 1.3;
+    margin: -10px 0 12px;
+    min-height: 16px;
+}
+
+.field-count {
+    color: rgba(255, 255, 255, 0.82);
+    display: block;
+    font-size: 12px;
+    margin: -10px 0 12px;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+.field-invalid {
+    border-color: #ffaaa5 !important;
+    box-shadow: 0 0 0 2px rgba(255, 170, 165, 0.2);
+}
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    .card {
+        width: 100%;
+        padding: 25px;
+    }
+
+    .logo h1 {
+        font-size: 28px;
+    }
+
+    form h2 {
+        font-size: 22px;
+    }
+
+    input,
+    select {
+        padding: 12px;
+    }
+
+    .submitBtn {
+        padding: 12px;
+    }
+}
+
+.login-page,
+.register-page {
+    background-position: center;
+    background-size: cover;
+}
+
+.login-page {
+    background-image:
+        linear-gradient(rgba(7, 26, 47, 0.62), rgba(7, 26, 47, 0.78)),
+    url("../images/pexels-cottonbro-4855370.jpg");
+}
+
+.register-page {
+    background-image:
+        linear-gradient(rgba(7, 26, 47, 0.62), rgba(7, 26, 47, 0.78)),
+    url("../images/pexels-allaontheloose-8460453.jpg");
+}
