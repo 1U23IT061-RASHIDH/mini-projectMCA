@@ -19,20 +19,49 @@
             <a class="logout" href="../login/login.html">Logout</a>
         </nav>
     </header>
-
     <main class="page-shell dashboard-shell">
+        <aside class="profile-sidebar" aria-label="Signed-in profile">
+            <p class="eyebrow">YOUR PROFILE</p>
+            <div class="profile-avatar" id="profileAvatar" aria-hidden="true">DL</div>
+            <h2 id="profileName">Library Admin</h2>
+            <p class="profile-email" id="profileEmail"></p>
+            <span class="role-badge" id="profileRole">ADMIN</span>
+            <a class="profile-link" href="#registeredUsers">Manage registered users</a>
+        </aside>
+        <div class="dashboard-content">
         <section class="welcome-section">
             <p class="eyebrow">LIBRARY OVERVIEW</p>
-            <h1>Welcome to Digital Library</h1>
+            <h1 id="dashboardWelcome">Welcome to Digital Library</h1>
             <p class="welcome-copy">Manage your library efficiently and effortlessly.</p>
         </section>
 
         <section class="stats-grid" aria-label="Library statistics">
             <article class="stat-card">
+                <span class="stat-icon stat-icon-students" aria-hidden="true">♙</span>
+                <div>
+                    <p>Total Registered Users</p>
+                    <strong id="totalUsers">0</strong>
+                </div>
+            </article>
+            <article class="stat-card">
                 <span class="stat-icon stat-icon-books" aria-hidden="true">▱</span>
                 <div>
                     <p>Total Books</p>
                     <strong id="totalBooks">0</strong>
+                </div>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon stat-icon-available" aria-hidden="true">✓</span>
+                <div>
+                    <p>Available Books</p>
+                    <strong id="availableBooks">0</strong>
+                </div>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon stat-icon-transactions" aria-hidden="true">▥</span>
+                <div>
+                    <p>Total Transactions</p>
+                    <strong id="totalTransactions">0</strong>
                 </div>
             </article>
             <article class="stat-card">
@@ -92,9 +121,40 @@
                 <div class="return-list" id="recentReturns"></div>
             </article>
         </section>
+        <section class="panel registered-users-panel" id="registeredUsers">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">ACCOUNT MANAGEMENT</p>
+                    <h2>Registered Users</h2>
+                </div>
+                <span class="record-count" id="registeredUserCount">0 users</span>
+            </div>
+            <div class="user-toolbar">
+                <input class="search-input" id="userSearch" type="search" placeholder="Search name, email, or ID..." aria-label="Search registered users">
+                <select class="filter-select" id="userStatusFilter" aria-label="Filter users by account status">
+                    <option value="all">All account statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table class="module-table registered-users-table">
+                    <thead><tr><th>User ID</th><th>Full Name</th><th>Email Address</th><th>Registration Date</th><th>Account Status</th><th>Actions</th></tr></thead>
+                    <tbody id="registeredUserTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+        </div>
     </main>
+    <dialog class="dialog-card" id="registeredUserDialog">
+        <div class="panel-heading">
+            <div><p class="eyebrow">REGISTERED USER</p><h2 id="dialogUserName">User details</h2></div>
+            <button class="text-button" id="closeRegisteredUserDialog" type="button">Close</button>
+        </div>
+        <dl class="detail-list" id="registeredUserDetails"></dl>
+    </dialog>
     <script src="../student/auth.js"></script>
-    <script>requireAuth(); attachLogoutHandlers();</script>
+    <script>requireAdmin(); attachLogoutHandlers();</script>
     <script src="dashboard.js"></script>
 </body>
 </html>

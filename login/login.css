@@ -115,6 +115,64 @@ select {
     transition: 0.3s;
 }
 
+.password-field {
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.password-field input {
+    margin-bottom: 0;
+    padding-right: 56px;
+}
+
+.password-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    height: 42px;
+    justify-content: center;
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+}
+
+.password-toggle:hover {
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+.password-toggle:focus-visible {
+    background: rgba(255, 255, 255, 0.22);
+    outline: 2px solid #ffffff;
+    outline-offset: 1px;
+}
+
+.password-toggle svg {
+    fill: none;
+    height: 20px;
+    pointer-events: none;
+    stroke: #ffffff;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    width: 20px;
+}
+
+.password-toggle .eye-off-icon,
+.password-toggle[aria-pressed="true"] .eye-icon {
+    display: none;
+}
+
+.password-toggle[aria-pressed="true"] .eye-off-icon {
+    display: block;
+}
+
 input::placeholder {
     color: rgba(255, 255, 255, 0.82);
 }

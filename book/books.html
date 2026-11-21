@@ -135,6 +135,8 @@
                     </div>
                     <div class="report-actions">
                         <button class="secondary-button" id="exportReportButton" type="button"><span aria-hidden="true">⇩</span> Export CSV</button>
+                        <button class="secondary-button" id="exportExcelButton" type="button"><span aria-hidden="true">▦</span> Download Excel</button>
+                        <button class="secondary-button" id="exportPdfButton" type="button"><span aria-hidden="true">▣</span> Download PDF</button>
                         <button class="primary-button" id="printReportButton" type="button"><span aria-hidden="true">▣</span> Print / Save as PDF</button>
                     </div>
                 </header>
@@ -247,7 +249,10 @@
     <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
 
     <script src="../student/auth.js"></script>
-    <script>requireAuth(); attachLogoutHandlers();</script>
+    <script>requireAdmin(); attachLogoutHandlers();</script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
     <script src="books.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ const registerFields = {
     registerEmail: { error: "registerEmailError", validate: (value) => !value ? "Email is required." : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Invalid email format." : "" },
     registerPhone: { error: "registerPhoneError", validate: (value) => !value ? "Phone number is required." : !/^[0-9+()\-\s]{7,}$/.test(value) ? "Invalid phone number." : "" },
     registerPassword: { error: "registerPasswordError", validate: (value) => !value ? "Password is required." : value.length < 6 ? "Password must be at least 6 characters." : "" },
+    registerConfirmPassword: { error: "registerConfirmPasswordError", validate: (value) => !value ? "Please confirm your password." : value !== document.getElementById("registerPassword").value ? "Passwords do not match." : "" },
     registerRole: { error: "registerRoleError", validate: (value) => value ? "" : "Role is required." }
 };
 
@@ -41,7 +42,7 @@ Object.keys(registerFields).forEach((id) => {
     document.getElementById(id).addEventListener("blur", () => validateRegisterField(id));
 });
 
-if (getSession()) window.location.replace("../dashboard/dashboard.html");
+if (getSession()) redirectToDashboard();
 
 registerForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -50,16 +51,21 @@ registerForm.addEventListener("submit", (event) => {
         return;
     }
     const user = {
+        userId: `USR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
         name: document.getElementById("registerName").value.trim(),
         email: document.getElementById("registerEmail").value.trim().toLowerCase(),
         phone: document.getElementById("registerPhone").value.trim(),
         password: document.getElementById("registerPassword").value,
-        role: document.getElementById("registerRole").value
+        role: document.getElementById("registerRole").value,
+        status: "Active",
+        createdAt: new Date().toISOString()
     };
 
     if (readUsers().some((item) => item.email === user.email)) return showRegisterMessage("An account with this email already exists.", "error");
 
-    saveUsers([...readUsers(), { ...user, createdAt: new Date().toISOString() }]);
+    const users = readUsers();
+    if (user.role === "Admin" && users.some((item) => item.role === "Admin")) return showRegisterMessage("Only one Admin account is allowed.", "error");
+    saveUsers([...users, user]);
     showRegisterMessage("Registration successful. Redirecting to login...", "success");
     window.setTimeout(() => { window.location.href = "../login/login.html"; }, 800);
 });

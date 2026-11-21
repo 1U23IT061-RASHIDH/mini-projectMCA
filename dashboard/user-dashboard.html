@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | Digital Library</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dashboard-page user-dashboard-page">
+    <header class="topbar">
+        <a class="brand" href="user-dashboard.html"><span class="book-mark" aria-hidden="true">DL</span>Digital Library</a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a class="active" href="user-dashboard.html">My Dashboard</a>
+            <a class="logout" href="../login/login.html">Logout</a>
+        </nav>
+    </header>
+    <main class="page-shell dashboard-shell">
+        <aside class="profile-sidebar" aria-label="Signed-in profile">
+            <p class="eyebrow">YOUR PROFILE</p>
+            <div class="profile-avatar" id="profileAvatar" aria-hidden="true">DL</div>
+            <h2 id="profileName">Library User</h2>
+            <p class="profile-email" id="profileEmail"></p>
+            <span class="role-badge">USER</span>
+        </aside>
+        <div class="dashboard-content">
+            <section class="welcome-section">
+                <p class="eyebrow">PERSONAL LIBRARY</p>
+                <h1 id="dashboardWelcome">Welcome to your library</h1>
+                <p class="welcome-copy">Your account is ready. Browse the latest collection statistics below.</p>
+            </section>
+            <section class="stats-grid user-stats-grid" aria-label="Library collection statistics">
+                <article class="stat-card">
+                    <span class="stat-icon stat-icon-books" aria-hidden="true">▱</span>
+                    <div><p>Total Books</p><strong id="totalBooks">0</strong></div>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon stat-icon-available" aria-hidden="true">✓</span>
+                    <div><p>Available Copies</p><strong id="availableBooks">0</strong></div>
+                </article>
+            </section>
+            <section class="panel user-welcome-panel">
+                <p class="eyebrow">WELCOME</p>
+                <h2>Discover something new</h2>
+                <p class="welcome-copy">Your library account gives you a personalized place to stay connected with the collection. For assistance, please contact your library administrator.</p>
+            </section>
+        </div>
+    </main>
+    <script src="../student/auth.js"></script>
+    <script>requireUser(); attachLogoutHandlers();</script>
+    <script src="user-dashboard.js"></script>
+</body>
+</html>

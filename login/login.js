@@ -36,7 +36,7 @@ Object.keys(loginFields).forEach((id) => {
     document.getElementById(id).addEventListener("blur", () => validateLoginField(id));
 });
 
-if (getSession()) window.location.replace("../dashboard/dashboard.html");
+if (getSession()) redirectToDashboard();
 
 loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -48,7 +48,7 @@ loginForm.addEventListener("submit", (event) => {
     const password = document.getElementById("loginPassword").value;
     const role = document.getElementById("loginRole").value;
 
-    const user = readUsers().find((item) => item.email === email && item.password === password && item.role === role);
+    const user = readUsers().find((item) => item.email === email && item.password === password && item.role === role && item.status !== "Inactive");
     if (!user) {
         showLoginMessage("Invalid email, password, or role. Please try again.", "error");
         return;
@@ -56,7 +56,7 @@ loginForm.addEventListener("submit", (event) => {
 
     setSession(user);
     showLoginMessage("Login Successful! Redirecting to your dashboard...", "success");
-    window.setTimeout(() => { window.location.href = "../dashboard/dashboard.html"; }, 700);
+    window.setTimeout(() => { window.location.href = getDashboardPath(user); }, 700);
 });
 loginEmail.addEventListener("input", updateLoginEmailCount);
 loginEmail.addEventListener("beforeinput", (event) => {

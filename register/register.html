@@ -24,8 +24,38 @@
                 <small class="field-error" id="registerEmailError"></small>
                 <input type="tel" id="registerPhone" placeholder="Phone Number" maxlength="10" inputmode="numeric" required>
                 <small class="field-error" id="registerPhoneError"></small>
-                <input type="password" id="registerPassword" placeholder="Password (minimum 6 characters)" required>
+                <div class="password-field">
+                    <input type="password" id="registerPassword" placeholder="Password (minimum 6 characters)" required>
+                    <button class="password-toggle" type="button" data-password-toggle="registerPassword" aria-label="Show password" aria-pressed="false">
+                        <svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg class="eye-off-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m3 3 18 18"></path>
+                            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+                            <path d="M9.9 5.1A11 11 0 0 1 12 4.9c6.4 0 10 7.1 10 7.1a16.6 16.6 0 0 1-3.4 4.5"></path>
+                            <path d="M6.6 6.6C3.9 8.3 2 12 2 12s3.6 7.1 10 7.1a10.7 10.7 0 0 0 4.2-.8"></path>
+                        </svg>
+                    </button>
+                </div>
                 <small class="field-error" id="registerPasswordError"></small>
+                <div class="password-field">
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirm Password" required>
+                    <button class="password-toggle" type="button" data-password-toggle="registerConfirmPassword" aria-label="Show password" aria-pressed="false">
+                        <svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg class="eye-off-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m3 3 18 18"></path>
+                            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+                            <path d="M9.9 5.1A11 11 0 0 1 12 4.9c6.4 0 10 7.1 10 7.1a16.6 16.6 0 0 1-3.4 4.5"></path>
+                            <path d="M6.6 6.6C3.9 8.3 2 12 2 12s3.6 7.1 10 7.1a10.7 10.7 0 0 0 4.2-.8"></path>
+                        </svg>
+                    </button>
+                </div>
+                <small class="field-error" id="registerConfirmPasswordError"></small>
                 <select id="registerRole" required>
                     <option value="">Select Role</option>
                     <option value="User">User</option>
@@ -39,6 +69,7 @@
         </div>
     </main>
     <script src="../student/auth.js"></script>
+    <script>attachPasswordToggles();</script>
     <script src="register.js"></script>
 </body>
 </html>

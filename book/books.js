@@ -267,9 +267,10 @@ function getReportData(books) {
         const key = label.toLocaleLowerCase();
         const available = Math.max(0, Number(book.quantity) || 0);
         const totalCopies = available + (issuedCopiesByBook.get(String(book.bookId || "")) || 0);
-        const category = categories.get(key) || { label, titles: 0, copies: 0, lowStock: 0 };
+        const category = categories.get(key) || { label, titles: 0, copies: 0, available: 0, lowStock: 0 };
         category.titles += 1;
         category.copies += totalCopies;
+        category.available += available;
         if (available <= lowStockThreshold) category.lowStock += 1;
         categories.set(key, category);
     });
@@ -612,42 +613,257 @@ function csvValue(value) {
     return `"${safeText.replace(/"/g, '""')}"`;
 }
 
+function getReportExportModel(data) {
+    const generatedAt = new Date();
+    const reportName = data.reportType === "added" ? "Books Added in Date Range" : "Inventory Overview";
+    const period = data.reportType === "added"
+        ? `${data.fromDate || "Any date"} to ${data.toDate || "Any date"}`
+        : "Current inventory";
+    return {
+        generatedAt,
+        reportName,
+        period,
+        summary: [
+            ["Total Books", data.books.length],
+            ["Total Copies", data.totalCopies],
+            ["Available Copies", data.availableCopies],
+            ["Low-Stock Books", data.lowStockBooks],
+            ["Total Categories", data.totalCategories]
+        ],
+        categories: data.categories.map((category) => [
+            category.label,
+            category.titles,
+            category.copies,
+            category.available,
+            category.lowStock
+        ])
+    };
+}
+
+function getReportFilenameExtension(model, extension) {
+    return `library-${model.reportName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}-${model.generatedAt.toISOString().slice(0, 10)}.${extension}`;
+}
+
+function getValidatedReportData() {
+    const data = getReportData(getBooks());
+    if (data.error) {
+        showToast(data.error, "error");
+        return null;
+    }
+    return { data, model: getReportExportModel(data) };
+}
+
 document.getElementById("exportReportButton").addEventListener("click", () => {
     try {
-        const data = getReportData(getBooks());
-        if (data.error) {
-            showToast(data.error, "error");
-            return;
-        }
-        const period = data.reportType === "added"
-            ? `${data.fromDate || "Any date"} to ${data.toDate || "Any date"}`
-            : "Current inventory";
+        const report = getValidatedReportData();
+        if (!report) return;
+        const { data, model } = report;
         const rows = [
-            ["Section", "Metric", "Value", "Category", "Book Titles", "Copies", "Low-stock Books"],
-            ["Report", "Type", data.reportType === "added" ? "Books added in date range" : "Inventory overview", "", "", "", "", ""],
-            ["Report", "Period", period, "", "", "", ""],
-            ["Report", "Generated", new Date().toISOString(), "", "", "", ""],
-            ["Summary", "Total Book Titles", data.books.length, "", "", "", ""],
-            ["Summary", "Total Copies", data.totalCopies, "", "", "", ""],
-            ["Summary", "Available Copies", data.availableCopies, "", "", "", ""],
-            ["Summary", "Low-Stock Books", data.lowStockBooks, "", "", "", ""],
-            ["Summary", "Total Categories", data.totalCategories, "", "", "", ""],
-            ...data.categories.map((category) => ["Category", "", "", category.label, category.titles, category.copies, category.lowStock]),
-            ["Category", "", "", "Total", data.books.length, data.totalCopies, data.lowStockBooks]
+            ["DIGITAL LIBRARY MANAGEMENT SYSTEM"],
+            [model.reportName],
+            ["Generated", model.generatedAt.toLocaleString(), "Period", model.period],
+            [],
+            ["REPORT SUMMARY"],
+            ["Metric", "Value"],
+            ...model.summary,
+            [],
+            ["CATEGORY-WISE INVENTORY"],
+            ["Category", "Book Titles", "Total Copies", "Available Copies", "Low-Stock Books"],
+            ...model.categories,
+            ["Total", data.books.length, data.totalCopies, data.availableCopies, data.lowStockBooks]
         ];
         const csv = `\uFEFF${rows.map((row) => row.map(csvValue).join(",")).join("\r\n")}`;
         const file = new Blob([csv], { type: "text/csv;charset=utf-8" });
         const url = URL.createObjectURL(file);
         const downloadLink = document.createElement("a");
         downloadLink.href = url;
-        downloadLink.download = `library-report-${new Date().toISOString().slice(0, 10)}.csv`;
+        downloadLink.download = getReportFilenameExtension(model, "csv");
         document.body.appendChild(downloadLink);
         downloadLink.click();
         downloadLink.remove();
         window.setTimeout(() => URL.revokeObjectURL(url), 1000);
         showToast("Report exported as CSV.");
     } catch (error) {
-        showToast("The report could not be exported. Please try again.", "error");
+        showToast(`The CSV report could not be exported: ${error.message}`, "error");
+    }
+});
+
+document.getElementById("exportExcelButton").addEventListener("click", () => {
+    try {
+        if (!window.XLSX) throw new Error("The Excel export library could not be loaded. Check your internet connection and try again.");
+        const report = getValidatedReportData();
+        if (!report) return;
+        const { data, model } = report;
+        const rows = [
+            ["DIGITAL LIBRARY MANAGEMENT SYSTEM"],
+            [model.reportName],
+            ["Generated", model.generatedAt.toLocaleString(), "Period", model.period],
+            [],
+            ["REPORT SUMMARY"],
+            ["Metric", "Value"],
+            ...model.summary,
+            [],
+            ["CATEGORY-WISE INVENTORY"],
+            ["Category", "Book Titles", "Total Copies", "Available Copies", "Low-Stock Books"],
+            ...model.categories,
+            ["Total", data.books.length, data.totalCopies, data.availableCopies, data.lowStockBooks]
+        ];
+        const worksheet = XLSX.utils.aoa_to_sheet(rows);
+        worksheet["!merges"] = [
+            { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
+            { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
+            { s: { r: 4, c: 0 }, e: { r: 4, c: 1 } },
+            { s: { r: 12, c: 0 }, e: { r: 12, c: 4 } }
+        ];
+        worksheet["!cols"] = [0, 1, 2, 3, 4].map((columnIndex) => {
+            const longestValue = rows.slice(2).reduce((longest, row) => {
+                const value = row[columnIndex];
+                return Math.max(longest, value === undefined || value === null ? 0 : String(value).length);
+            }, 0);
+            return { wch: Math.min(38, Math.max(14, longestValue + 3)) };
+        });
+        worksheet["!rows"] = [{ hpt: 30 }, { hpt: 22 }, { hpt: 20 }];
+
+        const titleStyle = {
+            font: { name: "Arial", sz: 16, bold: true, color: { rgb: "FFFFFF" } },
+            fill: { fgColor: { rgb: "17212B" } },
+            alignment: { horizontal: "center", vertical: "center" }
+        };
+        const subtitleStyle = {
+            font: { name: "Arial", sz: 12, bold: true, color: { rgb: "17212B" } },
+            alignment: { horizontal: "center", vertical: "center" }
+        };
+        const sectionStyle = {
+            font: { name: "Arial", sz: 11, bold: true, color: { rgb: "FFFFFF" } },
+            fill: { fgColor: { rgb: "404040" } },
+            alignment: { horizontal: "left", vertical: "center" }
+        };
+        const headerStyle = {
+            font: { name: "Arial", sz: 10, bold: true, color: { rgb: "17212B" } },
+            fill: { fgColor: { rgb: "E5E7EB" } },
+            alignment: { horizontal: "center", vertical: "center", wrapText: true },
+            border: { bottom: { style: "thin", color: { rgb: "707070" } } }
+        };
+        const bodyStyle = {
+            font: { name: "Arial", sz: 10, color: { rgb: "17212B" } },
+            alignment: { vertical: "center" },
+            border: { bottom: { style: "hair", color: { rgb: "D1D5DB" } } }
+        };
+        const totalStyle = {
+            ...bodyStyle,
+            font: { name: "Arial", sz: 10, bold: true, color: { rgb: "17212B" } },
+            border: { top: { style: "thin", color: { rgb: "707070" } } }
+        };
+        const applyRowStyle = (rowIndex, columnCount, style) => {
+            for (let columnIndex = 0; columnIndex < columnCount; columnIndex += 1) {
+                const cell = worksheet[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })];
+                if (cell) cell.s = style;
+            }
+        };
+        applyRowStyle(0, 5, titleStyle);
+        applyRowStyle(1, 5, subtitleStyle);
+        applyRowStyle(4, 2, sectionStyle);
+        applyRowStyle(5, 2, headerStyle);
+        applyRowStyle(12, 5, sectionStyle);
+        applyRowStyle(13, 5, headerStyle);
+        for (let rowIndex = 6; rowIndex < 6 + model.summary.length; rowIndex += 1) {
+            applyRowStyle(rowIndex, 2, bodyStyle);
+            const valueCell = worksheet[XLSX.utils.encode_cell({ r: rowIndex, c: 1 })];
+            if (valueCell) valueCell.s = { ...bodyStyle, alignment: { horizontal: "right", vertical: "center" } };
+        }
+        const categoryStartRow = 14;
+        const categoryEndRow = categoryStartRow + model.categories.length;
+        for (let rowIndex = categoryStartRow; rowIndex < categoryEndRow; rowIndex += 1) {
+            applyRowStyle(rowIndex, 5, bodyStyle);
+            for (let columnIndex = 1; columnIndex < 5; columnIndex += 1) {
+                const cell = worksheet[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })];
+                if (cell) cell.s = { ...bodyStyle, alignment: { horizontal: "right", vertical: "center" } };
+            }
+        }
+        applyRowStyle(categoryEndRow, 5, totalStyle);
+        for (let columnIndex = 1; columnIndex < 5; columnIndex += 1) {
+            const cell = worksheet[XLSX.utils.encode_cell({ r: categoryEndRow, c: columnIndex })];
+            if (cell) cell.s = { ...totalStyle, alignment: { horizontal: "right", vertical: "center" } };
+        }
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Library Report");
+        XLSX.writeFile(workbook, getReportFilenameExtension(model, "xlsx"));
+        showToast("Report downloaded as an Excel workbook.");
+    } catch (error) {
+        showToast(`The Excel report could not be exported: ${error.message}`, "error");
+    }
+});
+
+document.getElementById("exportPdfButton").addEventListener("click", () => {
+    try {
+        if (!window.jspdf || !window.jspdf.jsPDF) throw new Error("The PDF export library could not be loaded. Check your internet connection and try again.");
+        const report = getValidatedReportData();
+        if (!report) return;
+        const { data, model } = report;
+        const doc = new window.jspdf.jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+        const pageWidth = doc.internal.pageSize.getWidth();
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("DIGITAL LIBRARY MANAGEMENT SYSTEM", pageWidth / 2, 18, { align: "center" });
+        doc.setFontSize(12);
+        doc.text(model.reportName, pageWidth / 2, 26, { align: "center" });
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.text(`Generated: ${model.generatedAt.toLocaleString()}`, 14, 35);
+        doc.text(`Period: ${model.period}`, 14, 41);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.text("REPORT SUMMARY", 14, 52);
+        doc.autoTable({
+            startY: 55,
+            head: [["Metric", "Value"]],
+            body: model.summary.map(([metric, value]) => [metric, String(value)]),
+            theme: "grid",
+            styles: { font: "helvetica", fontSize: 9, textColor: 0, lineColor: 80, lineWidth: 0.2, cellPadding: 2.5 },
+            headStyles: { fillColor: [230, 230, 230], textColor: 0, fontStyle: "bold", halign: "left" },
+            columnStyles: { 1: { halign: "right", cellWidth: 35 } },
+            margin: { left: 14, right: 14 }
+        });
+        const categoryHeadingY = doc.lastAutoTable.finalY + 10;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.text("CATEGORY-WISE INVENTORY", 14, categoryHeadingY);
+        doc.autoTable({
+            startY: categoryHeadingY + 3,
+            head: [["Category", "Book Titles", "Total Copies", "Available Copies", "Low-Stock Books"]],
+            body: [
+                ...model.categories.map((category) => category.map(String)),
+                ["Total", String(data.books.length), String(data.totalCopies), String(data.availableCopies), String(data.lowStockBooks)]
+            ],
+            theme: "grid",
+            styles: { font: "helvetica", fontSize: 8, textColor: 0, lineColor: 80, lineWidth: 0.2, cellPadding: 2, overflow: "linebreak" },
+            headStyles: { fillColor: [230, 230, 230], textColor: 0, fontStyle: "bold", halign: "center" },
+            columnStyles: {
+                0: { cellWidth: 60, halign: "left" },
+                1: { halign: "right" },
+                2: { halign: "right" },
+                3: { halign: "right" },
+                4: { halign: "right" }
+            },
+            didParseCell: (hookData) => {
+                if (hookData.section === "body" && hookData.row.index === model.categories.length) {
+                    hookData.cell.styles.fontStyle = "bold";
+                }
+            },
+            margin: { left: 14, right: 14 }
+        });
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let page = 1; page <= pageCount; page += 1) {
+            doc.setPage(page);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
+            doc.text(`Page ${page} of ${pageCount}`, pageWidth - 14, doc.internal.pageSize.getHeight() - 8, { align: "right" });
+        }
+        doc.save(getReportFilenameExtension(model, "pdf"));
+        showToast("Report downloaded as a PDF.");
+    } catch (error) {
+        showToast(`The PDF report could not be exported: ${error.message}`, "error");
     }
 });
 
